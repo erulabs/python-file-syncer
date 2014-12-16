@@ -117,7 +117,7 @@ def run():
                         exclude_patterns=exclude_patterns,
                         logger=logger,
                         concurrency=int(options.concurrency),
-                        no_content_type=options.no_content_type,
+                        auto_content_type=options.auto_content_type,
                         ignore_symlinks=options.ignore_symlinks)
     if options.restore:
         syncer.restore()
