@@ -320,9 +320,9 @@ class FileSyncer(object):
         for (dirpath, dirnames, filenames) in files:
             for name in filenames:
 
-                file_path = os.path.join(directory, name)
-                remote_name = self._get_item_remote_name(name=file_path,
-                                                         file_path=file_path)
+                file_path = os.path.join(base_path, dirpath, name)
+                # remote_name = self._get_item_remote_name(name=file_path, file_path=file_path)
+                remote_name = os.path.join(dirpath, name)
 
                 if not self._include_file(remote_name):
                     self._logger.debug('File %(name)s is excluded skipping it',
@@ -332,7 +332,7 @@ class FileSyncer(object):
                 mtime = os.path.getmtime(file_path)
                 md5_hash = None
 
-                item = {'name': file_path, 'remote_name': remote_name,
+                item = {'name': remote_name, 'remote_name': remote_name,
                         'path': file_path, 'last_modified': mtime,
                         'md5_hash': md5_hash}
                 result[remote_name] = item
