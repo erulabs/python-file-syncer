@@ -320,7 +320,7 @@ class FileSyncer(object):
         for (dirpath, dirnames, filenames) in files:
             for name in filenames:
 
-                file_path = os.path.join(base_path, dirpath, name)
+                file_path = os.path.join(base_path, name)
                 # remote_name = self._get_item_remote_name(name=file_path, file_path=file_path)
                 remote_name = os.path.join(dirpath, name)
 
