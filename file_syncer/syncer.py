@@ -287,7 +287,7 @@ class FileSyncer(object):
 
         try:
             driver.upload_object(file_path=file_path, container=container,
-                                 object_name=name, extra=extra)
+                                 object_name=file_path, extra=extra)
 
         except LibcloudError, e:
             self._logger.error('Failed to upload object "%(name)s": %(error)s',
@@ -305,7 +305,7 @@ class FileSyncer(object):
 
         self._clear_retry(name)
         self._uploaded.append(item)
-        self._logger.debug('Object uploaded: %(name)s', {'name': name})
+        self._logger.debug('Object uploaded: %(name)s', {'name': file_path})
 
     def _get_local_files(self, directory):
         """
@@ -320,8 +320,8 @@ class FileSyncer(object):
         for (dirpath, dirnames, filenames) in files:
             for name in filenames:
 
-                file_path = os.path.join(base_path, dirpath, name)
-                remote_name = self._get_item_remote_name(name=name,
+                file_path = os.path.join(directory, name)
+                remote_name = self._get_item_remote_name(name=file_path,
                                                          file_path=file_path)
 
                 if not self._include_file(remote_name):
@@ -332,7 +332,7 @@ class FileSyncer(object):
                 mtime = os.path.getmtime(file_path)
                 md5_hash = None
 
-                item = {'name': name, 'remote_name': remote_name,
+                item = {'name': file_path, 'remote_name': remote_name,
                         'path': file_path, 'last_modified': mtime,
                         'md5_hash': md5_hash}
                 result[remote_name] = item
